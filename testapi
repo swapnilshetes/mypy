@@ -1,12 +1,14 @@
 #python Test API
 # importing the requests library
+# importing the requests library
 import requests
 import json
 
 SESSION_CHECK = False
 getResponce = ""
 API_ENDPOINT = "https://reqres.in/api/users"
-
+logFile_name = "demofile.txt"
+API_METHOD ="post"
 # your API key here
 API_KEY = "XXXXXXXXXXXXXXXXX"
 
@@ -23,6 +25,15 @@ def fetchRespoce( method, api_url, data=""):
     else:
         print("No method")
 
+def writeLogFile(data , content):
+    f = open(logFile_name, "a")
+    f.write("DATA INPUT :")
+    f.write(data)
+    f.write("\n")
+    f.write("RESPONCE :")
+    f.write(content)
+    f.write("\n-------------------------------------------\n")
+
 
 # data to be sent to api
 data = {"name":"test1223","job":"testLeader1223"}
@@ -37,10 +48,11 @@ if SESSION_CHECK:
     # sending post request and saving response as response object
     getResponce = session.post(url=API_ENDPOINT, json=data )
 else:
-    getResponce = fetchRespoce ( "post" , API_ENDPOINT , data )
+    getResponce = fetchRespoce (API_METHOD , API_ENDPOINT , data )
 
 # extracting response text
-pastebin_url = getResponce.text
-print("The pastebin URL is:%s" % pastebin_url)
+print("Responce is:%s" % getResponce.text)
+writeLogFile( data.__str__() , getResponce.text )
+
 
 
