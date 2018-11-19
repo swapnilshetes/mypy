@@ -1,0 +1,46 @@
+#python Test API
+# importing the requests library
+import requests
+import json
+
+SESSION_CHECK = False
+getResponce = ""
+API_ENDPOINT = "https://reqres.in/api/users"
+
+# your API key here
+API_KEY = "XXXXXXXXXXXXXXXXX"
+
+# defining request functin
+def fetchRespoce( method, api_url, data=""):
+    if (method == "post"):
+        return requests.post(url=api_url , json=data)
+    elif (method == "get"):
+        return requests.get(url=api_url ,  json=data)
+    elif (method == "put"):
+        print("PUT")
+    elif (method == "delete"):
+        print("Delete")
+    else:
+        print("No method")
+
+
+# data to be sent to api
+data = {"name":"test1223","job":"testLeader1223"}
+
+if SESSION_CHECK:
+    session = requests.session()
+    #cookies = dict(c_mId='WG4phsx2dKzq9lpxEc7gtA')
+    header = {
+    "Cookie": "c_mId=WG4phsx2dKzq9lpxEc7gtA"
+    }
+    session.headers = header
+    # sending post request and saving response as response object
+    getResponce = session.post(url=API_ENDPOINT, json=data )
+else:
+    getResponce = fetchRespoce ( "post" , API_ENDPOINT , data )
+
+# extracting response text
+pastebin_url = getResponce.text
+print("The pastebin URL is:%s" % pastebin_url)
+
+
